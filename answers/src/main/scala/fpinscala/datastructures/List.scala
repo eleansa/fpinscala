@@ -113,11 +113,15 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   /* 
-  No, this is not possible! The reason is because _before_ we ever call our function, `f`, we evaluate its argument, which in the case of `foldRight` means traversing the list all the way to the end. We need _non-strict_ evaluation to support early termination---we discuss this in chapter 5.
+  No, this is not possible! The reason is because _before_ we ever call our function, `f`,
+  we evaluate its argument, which in the case of `foldRight` means traversing the list all the way
+  to the end. We need _non-strict_ evaluation to support early termination---we discuss this in chapter 5.
   */
 
   /* 
-  We get back the original list! Why is that? As we mentioned earlier, one way of thinking about what `foldRight` "does" is it replaces the `Nil` constructor of the list with the `z` argument, and it replaces the `Cons` constructor with the given function, `f`. If we just supply `Nil` for `z` and `Cons` for `f`, then we get back the input list. 
+  We get back the original list! Why is that? As we mentioned earlier, one way of thinking about what `foldRight`
+  "does" is it replaces the `Nil` constructor of the list with the `z` argument, and it replaces the `Cons` constructor
+  with the given function, `f`. If we just supply `Nil` for `z` and `Cons` for `f`, then we get back the input list.
   
   foldRight(Cons(1, Cons(2, Cons(3, Nil))), Nil:List[Int])(Cons(_,_))
   Cons(1, foldRight(Cons(2, Cons(3, Nil)), Nil:List[Int])(Cons(_,_)))
@@ -160,15 +164,26 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldRight(l, (b:B) => b)((a,g) => b => g(f(b,a)))(z)
 
   /*
-  `append` simply replaces the `Nil` constructor of the first list with the second list, which is exactly the operation performed by `foldRight`.
+  `append` simply replaces the `Nil` constructor of the first list with the second list,
+  which is exactly the operation performed by `foldRight`.
   */
   def appendViaFoldRight[A](l: List[A], r: List[A]): List[A] = 
     foldRight(l, r)(Cons(_,_))
 
   /*
-  Since `append` takes time proportional to its first argument, and this first argument never grows because of the right-associativity of `foldRight`, this function is linear in the total length of all lists. You may want to try tracing the execution of the implementation on paper to convince yourself that this works. 
+  Since `append` takes time proportional to its first argument,
+  and this first argument never grows because of the right-associativity of `foldRight`,
+  this function is linear in the total length of all lists.
+  You may want to try tracing the execution of the implementation on paper to convince yourself that this works.
   
-  Note that we're simply referencing the `append` function, without writing something like `(x,y) => append(x,y)` or `append(_,_)`. In Scala there is a rather arbitrary distinction between functions defined as _methods_, which are introduced with the `def` keyword, and function values, which are the first-class objects we can pass to other functions, put in collections, and so on. This is a case where Scala lets us pretend the distinction doesn't exist. In other cases, you'll be forced to write `append _` (to convert a `def` to a function value) or even `(x: List[A], y: List[A]) => append(x,y)` if the function is polymorphic and the type arguments aren't known. 
+  Note that we're simply referencing the `append` function, without writing something like
+  `(x,y) => append(x,y)` or `append(_,_)`. In Scala there is a rather arbitrary distinction between
+  functions defined as _methods_, which are introduced with the `def` keyword, and function values,
+  which are the first-class objects we can pass to other functions, put in collections, and so on.
+  This is a case where Scala lets us pretend the distinction doesn't exist.
+  In other cases, you'll be forced to write `append _`
+  (to convert a `def` to a function value) or even
+  `(x: List[A], y: List[A]) => append(x,y)` if the function is polymorphic and the type arguments aren't known.
   */
   def concat[A](l: List[List[A]]): List[A] = 
     foldRight(l, Nil:List[A])(append)
@@ -180,7 +195,10 @@ object List { // `List` companion object. Contains functions for creating and wo
     foldRight(l, Nil:List[String])((h,t) => Cons(h.toString,t))
 
   /* 
-  A natural solution is using `foldRight`, but our implementation of `foldRight` is not stack-safe. We can use `foldRightViaFoldLeft` to avoid the stack overflow (variation 1), but more commonly, with our current implementation of `List`, `map` will just be implemented using local mutation (variation 2). Again, note that the mutation isn't observable outside the function, since we're only mutating a buffer that we've allocated. 
+  A natural solution is using `foldRight`, but our implementation of `foldRight` is not stack-safe.
+  We can use `foldRightViaFoldLeft` to avoid the stack overflow (variation 1), but more commonly,
+  with our current implementation of `List`, `map` will just be implemented using local mutation (variation 2).
+  Again, note that the mutation isn't observable outside the function, since we're only mutating a buffer that we've allocated.
   */
   def map[A,B](l: List[A])(f: A => B): List[B] = 
     foldRight(l, Nil:List[B])((h,t) => Cons(f(h),t))
@@ -227,7 +245,11 @@ object List { // `List` companion object. Contains functions for creating and wo
     flatMap(l)(a => if (f(a)) List(a) else Nil)
 
   /* 
-  To match on multiple values, we can put the values into a pair and match on the pair, as shown next, and the same syntax extends to matching on N values (see sidebar "Pairs and tuples in Scala" for more about pair and tuple objects). You can also (somewhat less conveniently, but a bit more efficiently) nest pattern matches: on the right hand side of the `=>`, simply begin another `match` expression. The inner `match` will have access to all the variables introduced in the outer `match`. 
+  To match on multiple values, we can put the values into a pair and match on the pair, as shown next,
+  and the same syntax extends to matching on N values (see sidebar "Pairs and tuples in Scala" for more
+  about pair and tuple objects). You can also (somewhat less conveniently, but a bit more efficiently)
+  nest pattern matches: on the right hand side of the `=>`, simply begin another `match` expression.
+  The inner `match` will have access to all the variables introduced in the outer `match`.
   
   The discussion about stack usage from the explanation of `map` also applies here.
   */
@@ -238,7 +260,8 @@ object List { // `List` companion object. Contains functions for creating and wo
   }
 
   /* 
-  This function is usually called `zipWith`. The discussion about stack usage from the explanation of `map` also applies here. By putting the `f` in the second argument list, Scala can infer its type from the previous argument list. 
+  This function is usually called `zipWith`. The discussion about stack usage from the explanation of
+  `map` also applies here. By putting the `f` in the second argument list, Scala can infer its type from the previous argument list.
   */
   def zipWith[A,B,C](a: List[A], b: List[B])(f: (A,B) => C): List[C] = (a,b) match {
     case (Nil, _) => Nil
