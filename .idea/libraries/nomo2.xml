@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="nomo">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/project/lib/nomo.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

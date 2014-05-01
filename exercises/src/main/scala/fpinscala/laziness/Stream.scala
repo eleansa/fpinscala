@@ -144,34 +144,6 @@ trait Stream[+A] {
       case _ => None
     }
 
-
-
-
-
-//    unfold(this, sub, false) {
-//      case (Cons(a, as), Cons(b, bs), contains) => {
-//        if( a == b ) Some(as(), bs(), true) else Some(None, None, false)
-//      }
-//      case (Empty, Empty, contains) => contains
-//    }
-//  }
-
-//    @tailrec
-//    def go(a: List[A], b: List[A], contains: Boolean): Boolean = {
-//      (a, b) match {
-//        case (Nil, Nil) => contains
-//        case (Nil, _) => false
-//        case (_, Nil) => contains
-//        case (Cons(x, xs), Cons(y, ys)) => {
-//          if (x == y) go(xs, ys, true)
-//          else go (xs, b, false)
-//        }
-//      }
-//    }
-//
-//    go(l, sub, false)
-
-
   def startsWith[B>:A](s: Stream[B]): Boolean =
     this.zipWith(s)((a:A,b:B) => a == b).forAll(_ == true)
 

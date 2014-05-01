@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/answers.iml" filepath="$PROJECT_DIR$/.idea/modules/answers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/answers-build.iml" filepath="$PROJECT_DIR$/.idea/modules/answers-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chapter-code.iml" filepath="$PROJECT_DIR$/.idea/modules/chapter-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/chapter-code-build.iml" filepath="$PROJECT_DIR$/.idea/modules/chapter-code-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/exercises.iml" filepath="$PROJECT_DIR$/.idea/modules/exercises.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/exercises-build.iml" filepath="$PROJECT_DIR$/.idea/modules/exercises-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fpinscala.iml" filepath="$PROJECT_DIR$/fpinscala.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fpinscala-build.iml" filepath="$PROJECT_DIR$/.idea/modules/fpinscala-build.iml" />
+    </modules>
+  </component>
+</project>
+
